@@ -18,11 +18,13 @@
 <!-- 获取各月文章数量 -->
 
 <%
-var cnt_id = 0;
 var current_year, last_year, current_month, last_month;
-var num = 0;
-var posts_num = [];
-var year_store = [];
+var month_posts_counts = 0; // 统计月份文章数量
+var year_posts_counts = 0; // 统计年份文章数量
+var month_posts_num = []; // 统计月份文章数量
+var year_posts_num = []; // 年份文章数量
+var year_store = []; // 记录文章出现的年份
+
 page.posts.each(function(post, i) {
 	current_year = post.date.year();
 	current_month = post.date.format('MM'); // 从0开始
@@ -30,20 +32,25 @@ page.posts.each(function(post, i) {
 	if(last_month == null) last_month = current_month;
 
 	if(current_month != last_month) {
-		posts_num[cnt_id++] = num;
+		month_posts_num.push(month_posts_counts);
+		year_posts_counts += month_posts_counts;
 		last_month = current_month;
-		num = 1;
+		month_posts_counts = 1;
 	}
-	else ++num;
+	else ++month_posts_counts;
 
 	if(current_year != last_year) {
 		last_year = current_year;
+		year_posts_num.push(year_posts_counts);
+		year_posts_counts = 0;
 	}
 })
 
-posts_num[cnt_id++] = num; // 最后一月
+month_posts_num.push(month_posts_counts); // 最后一月
+year_posts_num.push(year_posts_counts+month_posts_counts); // 最后一年
 
 cnt_id = 0;
+current_year_id = 0;
 %>
 
 
@@ -61,7 +68,7 @@ cnt_id = 0;
 	  <% year_store.push(year) %>
       <section class="archives-wrap">
         <div class="archive-year-wrap">
-          <a class="archive-year" id="toc_year<%- year %>"><%= year %></a><span class="hide">HideAll</span>
+          <a class="archive-year" id="toc_year<%- year %>"><%= year %>(<%= year_posts_num[current_year_id++] %> Posts)</a><span class="hide">HideAll</span>
         </div>
  	</section>
       <section class="archives-wrap" id="year<%- year %>">
@@ -73,7 +80,7 @@ cnt_id = 0;
 		if(lastMonth != null) %>
 			</div>
 		<% lastMonth = month %>
-         <div class="article-month"><h2 id="tog<%- cnt_id %>"><%= MonthMap[parseInt(month)-1] %> (<%- posts_num[cnt_id++] %> Posts)</h2></div>
+         <div class="article-month"><h2 id="tog<%- cnt_id %>"><%= MonthMap[parseInt(month)-1] %> (<%- month_posts_num[cnt_id++] %> Posts)</h2></div>
 
         <div class="archives" id="archives<%- cnt_id-1 %>">
 	<% } %>
@@ -96,7 +103,7 @@ cnt_id = 0;
 
 
 <script>
-for(var i=1; i<<%- posts_num.length %>; ++i)
+for(var i=1; i<<%- month_posts_num.length %>; ++i)
 	$("#archives"+i).toggle(0);
 
 <% for(var i=0; i<year_store.length; ++i) { %>
@@ -114,7 +121,7 @@ for(var i=1; i<<%- posts_num.length %>; ++i)
 	})
 <% } %>
 
-<% for(var i=0; i<posts_num.length; ++i) { %>
+<% for(var i=0; i<month_posts_num.length; ++i) { %>
 	$("#tog<%- i %>").click(function(){
 		$("#archives<%- i %>").toggle(400);
 	})
