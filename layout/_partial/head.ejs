@@ -32,5 +32,12 @@
   <%- css('css/style') %>
   <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+<!-- 加载特效 -->
+<% if(theme.animate) { %>
+ <script src="/js/pace.js"></script>
+<link href="/css/pace/red/pace-theme-flash.css" rel="stylesheet" />
+<% } %>
 <script src="//cdn.bootcss.com/jquery/3.0.0-alpha1/jquery.min.js"></script>
+
 </head>

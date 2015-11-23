@@ -52,7 +52,7 @@
     <%- partial('post/nav') %>
   <% } %>
 </article>
-<% if (!index && post.toc != false && !is_page()){ %>
+<% if (!index && post.toc != false){ %>
 <%- partial('_partial/toc') %>
 <% } %>
 <% if (!index && theme.share){ %>

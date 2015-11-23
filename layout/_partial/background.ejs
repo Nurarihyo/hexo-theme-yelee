@@ -1,12 +1,14 @@
 <% if (theme.background_image){ %>
-<script>
-  var backgroundnum = <%= theme.background_image %>;
-  var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+<script type="text/javascript">
+
+  var backgroundnum = 14;
+  var backgroundimg = "url(http://7xibui.com1.z0.glb.clouddn.com/background/bg-x.jpg)".replace(/bg-x/gi, "bg-"+Math.ceil(Math.random() * backgroundnum));
 
   $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+ 
 </script>
 <% } else { %>
-  <style>
+  <style type="text/css">
     body {
       background: lightgray;
     }
