@@ -60,25 +60,24 @@ current_year_id = 0;
     <% var year = post.date.year(); %>
 
     <% if (last != year){ %>
-      <% if (last != null){
-		%>
+      <% if (last != null){ lastMonth = null; %>
+	  </div>
        </section>
       <% } %>
       <% last = year; %>
 	  <% year_store.push(year) %>
-      <section class="archives-wrap">
+      <section class="archives-wrap" id="year<%- year %>">
         <div class="archive-year-wrap">
           <a class="archive-year" id="toc_year<%- year %>"><%= year %>(<%= year_posts_num[current_year_id++] %> Posts)</a><span class="hide">HideAll</span>
         </div>
- 	</section>
-      <section class="archives-wrap" id="year<%- year %>">
     <% } %>
 
 <!-- 月份分类 -->
     <% var month = post.date.format('MM'); %>
-	<% if(month != lastMonth) {
-		if(lastMonth != null) %>
+	<% if(month != lastMonth) { %>
+		<% if(lastMonth != null) { %>
 			</div>
+		<% } %>
 		<% lastMonth = month %>
          <div class="article-month"><h2 id="tog<%- cnt_id %>"><%= MonthMap[parseInt(month)-1] %> (<%- month_posts_num[cnt_id++] %> Posts)</h2></div>
 
